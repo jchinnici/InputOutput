@@ -10,12 +10,12 @@ namespace InputOutputParentChildCalc
     class Program
     {
         static List<Record> database = new List<Record>();
-        static List<Record> database2 = new List<Record>();
+        static List<Record2> database2 = new List<Record2>();
         static void Main(string[] args)
         {
             var currentFileData = File.ReadAllText("input.txt");
 
-            LoadDataBase(currentFileData);
+            Extrapolate(currentFileData);
             
 
 
@@ -31,10 +31,24 @@ namespace InputOutputParentChildCalc
         }
         static void LoadDataBase(string text)
         {
-                var lines = text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            
+            var lines = text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in lines)
+            {
+                var details = line.Split(',');
+                var newRecord = new Record();
+                newRecord.parent = details[0];
+                newRecord.child = details[1];
+                newRecord.amount = Int32.Parse(details[2]);
+                database.Add(newRecord);
+            }
+                
 
-            for(int i = 0; i <= text.Length - 1; i++)
+        }
+        static void Extrapolate(string text)
+        {
+
+            var lines = text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            for(int i = 0; i <= lines.Length - 1; i++)
             {
                 var details = lines[i].Split(',');
                 var newRecord = new Record();
@@ -42,14 +56,15 @@ namespace InputOutputParentChildCalc
                 newRecord.child = details[1];
                 newRecord.amount = decimal.Parse(details[2]);
                 database.Add(newRecord);
-                if(newRecord.parent != newRecord.child)
+                if (newRecord.parent != newRecord.child)
                 {
-                    for (int j = 0; i <= text.Length; j++)
+                    for(int j = 0; j <= lines.Length - 1; j++)
                     {
                         var newRecord2 = new Record2();
                         newRecord2.parent2 = details[0];
                         newRecord2.child2 = details[1];
                         newRecord2.amount2 = decimal.Parse(details[2]);
+                        database2.Add(newRecord2);
                         if (newRecord.child == newRecord2.parent2)
                         {
                             newRecord.parent = newRecord.parent;
@@ -57,18 +72,15 @@ namespace InputOutputParentChildCalc
                             newRecord.amount = (newRecord.amount * newRecord2.amount2);
                             database.Add(newRecord);
                         }
-                        else
-                        {
-                            var shit = "shit";
-                        }
-                            
+
+
 
 
                     }
 
                 }
 
-                
+
             }
             Savedatabase();
 
