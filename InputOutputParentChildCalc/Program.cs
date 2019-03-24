@@ -42,11 +42,7 @@ namespace InputOutputParentChildCalc
                 newRecord.child = details[1];
                 newRecord.amount = decimal.Parse(details[2]);
                 database.Add(newRecord);
-                if(newRecord.parent == newRecord.child)
-                {
-                    var doNothing = "";
-                }
-                else
+                if(newRecord.parent != newRecord.child)
                 {
                     for (int j = 0; i <= text.Length; j++)
                     {
