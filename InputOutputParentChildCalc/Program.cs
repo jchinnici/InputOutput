@@ -9,16 +9,19 @@ namespace InputOutputParentChildCalc
 {
     class Program
     {
-        static Dictionary<int, Record> database = new Dictionary<int, Record>();
+        static List<Record> database = new List<Record>();
+        static List<Record> database2 = new List<Record>();
         static void Main(string[] args)
         {
             var currentFileData = File.ReadAllText("input.txt");
+
             LoadDataBase(currentFileData);
-            Extrapolate();
+            
+
 
             
 
-            StringBuilder sb = new StringBuilder();
+            
 
 
             
@@ -31,16 +34,47 @@ namespace InputOutputParentChildCalc
                 var lines = text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             
 
-                foreach (var line in lines)
+            for(int i = 0; i <= text.Length - 1; i++)
+            {
+                var details = lines[i].Split(',');
+                var newRecord = new Record();
+                newRecord.parent = details[0];
+                newRecord.child = details[1];
+                newRecord.amount = decimal.Parse(details[2]);
+                database.Add(newRecord);
+                if(newRecord.parent == newRecord.child)
                 {
-                    var details = line.Split(',');
-                    var newRecord = new Record();
-                    newRecord.Id = Int32.Parse(details[0]);
-                    newRecord.x = details[1];
-                    newRecord.y = details[2];
-                    newRecord.amount = decimal.Parse(details[3]);
-                    database.Add(newRecord.Id, newRecord);
+                    var doNothing = "";
                 }
+                else
+                {
+                    for (int j = 0; i <= text.Length; j++)
+                    {
+                        var newRecord2 = new Record2();
+                        newRecord2.parent2 = details[0];
+                        newRecord2.child2 = details[1];
+                        newRecord2.amount2 = decimal.Parse(details[2]);
+                        if (newRecord.child == newRecord2.parent2)
+                        {
+                            newRecord.parent = newRecord.parent;
+                            newRecord.child = newRecord2.child2;
+                            newRecord.amount = (newRecord.amount * newRecord2.amount2);
+                            database.Add(newRecord);
+                        }
+                        else
+                        {
+                            var shit = "shit";
+                        }
+                            
+
+
+                    }
+
+                }
+
+                
+            }
+            Savedatabase();
 
 
 
@@ -49,37 +83,12 @@ namespace InputOutputParentChildCalc
         {
             string allTextinDB = "";
             foreach (var record in database)
-                allTextinDB = allTextinDB + record.Value + Environment.NewLine;
+                allTextinDB = allTextinDB + record + Environment.NewLine;
             File.WriteAllText("input.txt", allTextinDB);
         }
-        static void Extrapolate()
-        {
 
-            var record = new Record();
-            int maxID = database.Max(x => x.Key);
-            for(int i = 0; i <= maxID; i++)
-            {
-                var parent = record.x;
-                var child = record.y;
-                decimal orgAmount = record.amount;
-                for(int j = 0; j <= maxID; j++)
-                {
-                    if(child == record.x)
-                    {
-                        record.Id = maxID + 1;
-                        record.x = parent;
-                        record.y = record.y;
-                        record.amount = (orgAmount * record.amount);
-                        database.Add(record.Id, record);
-                        maxID = record.Id;
-                    }
-                }
 
-                
-            }
-            Savedatabase();
-
-        }
+        
 
 
 

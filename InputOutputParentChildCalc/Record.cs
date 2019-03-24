@@ -8,15 +8,27 @@ namespace InputOutputParentChildCalc
 {
     class Record
     {
-        public int Id { get; set; }
-        public string x { get; set; }
-        public string y { get; set; }
+
+        public string parent { get; set; }
+        public string child { get; set; }
         public decimal amount { get; set; }
 
 
         public override string ToString()
         {
-            return $"{Id},{x},{y},{amount}";
+            return $"{parent},{child},{amount}";
+        }
+    }
+    class Record2
+    {
+        public string parent2 { get; set; }
+        public string child2 { get; set; }
+        public decimal amount2 { get; set; }
+
+
+        public override string ToString()
+        {
+            return $"{parent2},{child2},{amount2}";
         }
     }
 }
