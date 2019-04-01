@@ -10,7 +10,6 @@ namespace InputOutputParentChildCalc
     class Program
     {
         static List<Record> database = new List<Record>();
-        static List<Record2> database2 = new List<Record2>();
         static void Main(string[] args)
         {
             var currentFileData = File.ReadAllText("input.txt");
@@ -56,20 +55,17 @@ namespace InputOutputParentChildCalc
                 newRecord.child = details[1];
                 newRecord.amount = decimal.Parse(details[2]);
                 database.Add(newRecord);
+                Savedatabase();
                 if (newRecord.parent != newRecord.child)
                 {
                     for(int j = 0; j <= lines.Length - 1; j++)
                     {
-                        var newRecord2 = new Record2();
-                        newRecord2.parent2 = details[0];
-                        newRecord2.child2 = details[1];
-                        newRecord2.amount2 = decimal.Parse(details[2]);
-                        database2.Add(newRecord2);
-                        if (newRecord.child == newRecord2.parent2)
+                        var details2 = lines[j].Split(',');
+                        if (newRecord.child == details2[0] && newRecord.parent != details2[0])
                         {
                             newRecord.parent = newRecord.parent;
-                            newRecord.child = newRecord2.child2;
-                            newRecord.amount = (newRecord.amount * newRecord2.amount2);
+                            newRecord.child = details2[1];
+                            newRecord.amount = (newRecord.amount * decimal.Parse(details2[2]));
                             database.Add(newRecord);
                         }
 

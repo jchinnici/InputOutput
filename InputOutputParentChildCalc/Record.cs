@@ -19,16 +19,5 @@ namespace InputOutputParentChildCalc
             return $"{parent},{child},{amount}";
         }
     }
-    class Record2
-    {
-        public string parent2 { get; set; }
-        public string child2 { get; set; }
-        public decimal amount2 { get; set; }
 
-
-        public override string ToString()
-        {
-            return $"{parent2},{child2},{amount2}";
-        }
-    }
 }
