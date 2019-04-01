@@ -47,7 +47,7 @@ namespace InputOutputParentChildCalc
         {
 
             var lines = text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            for(int i = 0; i <= lines.Length - 1; i++)
+            for (int i = 0; i <= lines.Length - 1; i++)
             {
                 var details = lines[i].Split(',');
                 var newRecord = new Record();
@@ -55,7 +55,15 @@ namespace InputOutputParentChildCalc
                 newRecord.child = details[1];
                 newRecord.amount = decimal.Parse(details[2]);
                 database.Add(newRecord);
-                Savedatabase();
+            }
+                for (int i = 0; i <= lines.Length - 1; i++)
+            {
+                var details = lines[i].Split(',');
+                var newRecord = new Record();
+                newRecord.parent = details[0];
+                newRecord.child = details[1];
+                newRecord.amount = decimal.Parse(details[2]);
+                database.Add(newRecord);
                 if (newRecord.parent != newRecord.child)
                 {
                     for(int j = 0; j <= lines.Length - 1; j++)
